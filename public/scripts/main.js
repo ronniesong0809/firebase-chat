@@ -54,7 +54,14 @@ function isUserSignedIn() {
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
-  // TODO 7: Load and listens for new messages.
+  // Load and listens for new messages. loads the last 12 messages and listens for new ones.
+  var callback = function(snap) {
+    var data = snap.val();
+    displayMessage(snap.key, data.name, data.text, data.profilePicUrl, data.imageUrl);
+  };
+
+  firebase.database().ref('/messages/').limitToLast(12).on('child_added', callback);
+  firebase.database().ref('/messages/').limitToLast(12).on('child_changed', callback);
 }
 
 // Saves a new message on the Firebase DB.
