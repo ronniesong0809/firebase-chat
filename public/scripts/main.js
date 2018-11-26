@@ -66,7 +66,14 @@ function loadMessages() {
 
 // Saves a new message on the Firebase DB.
 function saveMessage(messageText) {
-  // TODO 8: Push a new message to Firebase.
+  // Push a new message to Firebase. Adds a new message entry to the Realtime Database.
+  return firebase.database().ref('/messages/').push({
+    name: getUserName(),
+    text: messageText,
+    profilePicUrl: getProfilePicUrl()
+  }).catch(function(error) {
+    console.error('Error writing new message to Realtime Database:', error);
+  });
 }
 
 // Saves a new message containing an image in Firebase.
